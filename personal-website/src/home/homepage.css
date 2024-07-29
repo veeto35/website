@@ -1,0 +1,47 @@
+
+
+.main {
+    
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.header {
+    margin-right: 50px;
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    
+}
+
+.logo {
+    height: 75px;
+    width: 75px;
+}
+
+.menu {
+    
+   width: 40%;
+   margin-left: auto;
+   align-content: center;
+   padding-right: 0px;
+   
+}
+
+
+.menu a {
+    padding: 0px 20px;
+    justify-content: space-around;
+}
+
+.socials {
+    align-self: flex-end;
+}
+
+.socials img {
+    height: 50px;
+    width: 50px;
+}
