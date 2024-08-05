@@ -1,3 +1,11 @@
-export default function SearchMovie() {
-    return <div>MovieDetails</div>
+
+
+export default function MovieDetails() {
+    
+    
+    return ( 
+    <div>
+       MovieDetails
+    </div>
+    );
 }
