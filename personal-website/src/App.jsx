@@ -1,4 +1,3 @@
-
 import './App.css'
 import HomePage from './home/HomePage'
 function App() {
@@ -7,6 +6,7 @@ function App() {
   return (
     
       <>
+      <div className='noise'></div>
         <HomePage />
       </>
     

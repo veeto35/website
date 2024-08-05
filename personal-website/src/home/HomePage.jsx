@@ -14,8 +14,9 @@ export default function HomePage() {
             <a href="https://github.com/veeto35" target="_blank"><img src="/src/assets/github_logo.png" alt="github"/></a>
           </div>
         </header>
-        <div className='intro'><h1>HELLO, I'M VASCO BUT YOU CAN CALL ME VEETO</h1>
-        <h2>I'm a frontend developer</h2>
+        <div className='intro'>
+          <h1>HELLO, I'M VASCO BUT YOU CAN CALL ME VEETO</h1>
+          <h2>I'm a frontend developer</h2>
         </div>
       </section>
     )

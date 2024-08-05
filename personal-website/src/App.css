@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('/src/assets/MinigapThin.otf') format('truetype');
+    /* Add additional font formats if necessary */
+    /* Specify the correct path to the font files */
+  }
+  
+
+body {
+    background-color: #f3f2f9;
+    font-family: 'CustomFont', sans-serif;
+    color: black;
+    
+}
+
+.noise {
+    position: fixed;
+    z-index: 9999;
+    top: -300%;
+    left: -150%;
+    height: 600%;
+    width: 600%;
+    animation: grain 7s steps(10) infinite;
+    background-image: url(/src/assets/noise.png);
+    background-size: 200px;
+    background-repeat: repeat;
+    opacity: .25;
+    pointer-events: none;
+}
