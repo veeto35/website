@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './index.css'
 import SearchMovie from './components/SearchMovie'
 import MovieDetails from './components/MovieDetails';
 
@@ -26,7 +26,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className='main'>
       <SearchMovie moviesList={movies} />
       <MovieDetails />
     </div>
