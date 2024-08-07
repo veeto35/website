@@ -31,6 +31,8 @@ a:hover {
   grid-template-rows: 150px auto 150px;
   min-width: 320px;
   min-height: 100vh;
+  justify-content: center;
+  justify-items: center;
 }
 
 
@@ -131,4 +133,35 @@ a:hover {
 .resultMoviesFound {
   color: antiquewhite;
   padding-right: 50px;
+}
+.info {
+  color: white
+}
+
+.containerDetails {
+  background-color: #1B1A55;
+  grid-column: 2;
+  grid-row: 2;
+  width: 80%;
+  display: flex;
+  align-content: center;
+}
+
+
+.containerDetails a {
+  align-self: flex-start;
+}
+
+.containerDetails img {
+  align-self: flex-start;
+}
+
+.jointImage {
+  position: relative;
+}
+
+.jointImage button {
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
 }
