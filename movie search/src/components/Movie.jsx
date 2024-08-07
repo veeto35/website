@@ -11,7 +11,9 @@ export default function Movie({ key,movie}) {
                 </div>
                 <div className='infoHover'>
                     <h1>{movie.Title}</h1>
-                    <p>{movie.Year}</p>
+                    <img src={movie.Poster} alt="Movie"  />
+                    
+                    <p>📅 {movie.Year}</p>
                 </div>
             
         </li>

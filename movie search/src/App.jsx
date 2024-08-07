@@ -17,9 +17,15 @@ function App() {
 
     }
 
-
+    if(query.length < 3) {
+      setMovies([]);  
+    }
 
     fetchMovies();
+
+
+
+
 
   }, [query]);
 
@@ -27,7 +33,7 @@ function App() {
 
   return (
     <div className='main'>
-      <SearchMovie moviesList={movies} />
+      <SearchMovie moviesList={movies} query={query} setQuery={setQuery}/>
       <MovieDetails />
     </div>
   )
