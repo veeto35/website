@@ -1,8 +1,10 @@
 import { useState,useEffect } from "react";
+import StarRating from "./StarRating";
 const KEY = "f6e8c198";
 
-export default function MovieDetails({ selectedMovie,setSelectedMovie}) {
+export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosedMovie,watched,setWatched}) {
     const [movie,setMovie] = useState({});
+    const [userStarRating,setUserStarRating] = useState(0);
     
 
     useEffect(() => {
@@ -32,12 +34,21 @@ export default function MovieDetails({ selectedMovie,setSelectedMovie}) {
             <img src={movie.Poster} alt={movie.Title} />
             </div>
             <div className="info">
-                <h1>{movie.Title} <span>({movie.Released})</span></h1><p>{movie.Runtime}</p>
+               <div className="primaryInfo">
+                <h1>{movie.Title}</h1><p>{movie.Runtime}</p>
+                </div>
+                <span>{movie.Released}</span>
                 <p>Directed by <span>{movie.Director}</span></p>
                 <p>Actors: {movie.Actors}</p>
-                <p>{movie.Plot}</p>
-                
+                <p>IMDB Rating: {movie.imdbRating} ✨</p>
+                <div>
+                <StarRating maxRating={10} size={22} onSetRating={setUserStarRating} />
+                {
+                    userStarRating > 0 ? <button onClick={() => setClosedMovie()}>Movie Watched + </button> : null  
+                }
+                </div>
             </div>
+            <p className="plot">{movie.Plot}</p>
         </div>
     );
 }

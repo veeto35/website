@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react'
 import './index.css'
 import SearchMovie from './components/SearchMovie'
 import MovieDetails from './components/MovieDetails';
+import useLocalStorageState from './components/useLocalStorageState'
 
 function App() {
   const [movies,setMovies] = useState([]);
   const [query,setQuery] = useState("Int");
+  const [isLoading,setIsLoading] = useState(false);
+  const [watched,setWatched] = useLocalStorageState([],"watched");
+
   const [selectedMovie,setSelectedMovie] = useState(null);
   const KEY = "f6e8c198";
 
@@ -27,13 +31,20 @@ function App() {
   }, [query]);
 
 
+  function handleCloseMovie() {
+    setSelectedMovie(null)
+  }
+
 
   return (
-    <div className='main'>
+    <div className={`main-${selectedMovie !== null}`}>
+      <h1 className='title'>Movie Searcher</h1>
+      <SearchMovie moviesList={movies} query={query} setQuery={setQuery} setSelectedMovie={setSelectedMovie} />
       {
-        !selectedMovie ? <SearchMovie moviesList={movies} query={query} setQuery={setQuery} setSelectedMovie={setSelectedMovie} /> : <MovieDetails selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie}/>
+        !selectedMovie ? null : <MovieDetails selectedMovie={selectedMovie} watched={watched} setWatched={setWatched}  setSelectedMovie={setSelectedMovie} setClosedMovie={handleCloseMovie}/>
       }
     </div>
+    
   )
 }
 
