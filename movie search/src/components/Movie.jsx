@@ -1,10 +1,11 @@
 import './../index.css'
 
 
-export default function Movie({ keyId,movie,setSelectedMovie}) {
+export default function Movie({ id,movie,setSelectedMovie}) {
+    
     
     return (
-        <li key={keyId} className='movieRow' onClick={() => setSelectedMovie(keyId)}>
+        <li key={id} className='movieRow' onClick={() => setSelectedMovie(id)}>
             
                 <div className='posterHover'>
                     <img src={movie.Poster} alt="Movie"  />

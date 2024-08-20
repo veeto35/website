@@ -6,7 +6,8 @@ export default function MovieList({moviesList,setSelectedMovie}) {
         <ul className="listMovie">
             { 
                 moviesList?.map( (movie) => (
-                    <Movie movie={movie} keyId={movie.imdbID} setSelectedMovie={setSelectedMovie} />
+                    // eslint-disable-next-line react/jsx-key
+                    <Movie movie={movie} id={movie.imdbID} setSelectedMovie={setSelectedMovie} />
                 ))
             }
         </ul>

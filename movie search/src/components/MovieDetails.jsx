@@ -6,6 +6,36 @@ export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosed
     const [movie,setMovie] = useState({});
     const [userStarRating,setUserStarRating] = useState(0);
     
+    const { Title: title, Year: year ,Poster: poster,Runtime: runtime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre} = movie;
+    
+    const isWatched = watched.map((movie) => movie.imdbID).includes(selectedMovie)
+    const watchedUserRating = watched.find((movie) => movie.imdbID === selectedMovie)?.userRating;
+
+    function onHandleAdd() {
+        const newWatchedMovie = {
+          imdbID: selectedMovie,
+          title,
+          year,
+          poster,
+          imdbRating: Number(imdbRating),
+          runtime : Number(runtime.split(" ").at(0)),
+          userRating: userStarRating
+        }
+        
+        setWatched(newWatchedMovie)
+        setClosedMovie()
+      }
+  
+      //useKey("Escape",handleCloseMovie)
+      
+      useEffect(function() {
+        if(!title) return;
+        document.title= `Movie | ${title}`
+  
+        return function () {
+          document.title= "usePopcorn"
+        }
+      },[title])
 
     useEffect(() => {
         async function fetchMovie(){
@@ -41,10 +71,12 @@ export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosed
                 <p>Directed by <span>{movie.Director}</span></p>
                 <p>Actors: {movie.Actors}</p>
                 <p>IMDB Rating: {movie.imdbRating} ✨</p>
-                <div>
-                <StarRating maxRating={10} size={22} onSetRating={setUserStarRating} />
+                <div className="userRating">
                 {
-                    userStarRating > 0 ? <button onClick={() => setClosedMovie()}>Movie Watched + </button> : null  
+                    !isWatched ? (<>
+                        <StarRating maxRating={10} size={22} onSetRating={setUserStarRating} />
+                            {   userStarRating > 0 ? <button onClick={onHandleAdd}>Movie Watched + </button> : null }  </>) :
+                        <p>You rated this movie already  {watchedUserRating} ✨</p>
                 }
                 </div>
             </div>

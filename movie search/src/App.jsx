@@ -30,18 +30,33 @@ function App() {
 
   }, [query]);
 
+  function handleWatchedMovie(movie) {
+    setWatched(watched => [...watched, movie])
+  }
+
 
   function handleCloseMovie() {
     setSelectedMovie(null)
+  }
+
+  function handleSelectedMovie(id) {
+      if(id == selectedMovie) {
+        setSelectedMovie(null);
+      }else{
+        setSelectedMovie(id)
+      }
+
+
   }
 
 
   return (
     <div className={`main-${selectedMovie !== null}`}>
       <h1 className='title'>Movie Searcher</h1>
-      <SearchMovie moviesList={movies} query={query} setQuery={setQuery} setSelectedMovie={setSelectedMovie} />
+      <SearchMovie moviesList={movies} query={query} setQuery={setQuery} setSelectedMovie={handleSelectedMovie} />
       {
-        !selectedMovie ? null : <MovieDetails selectedMovie={selectedMovie} watched={watched} setWatched={setWatched}  setSelectedMovie={setSelectedMovie} setClosedMovie={handleCloseMovie}/>
+        !selectedMovie ? null : 
+        <MovieDetails selectedMovie={selectedMovie} watched={watched} setWatched={handleWatchedMovie}  setSelectedMovie={handleSelectedMovie} setClosedMovie={handleCloseMovie}/>
       }
     </div>
     

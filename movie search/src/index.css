@@ -205,3 +205,15 @@ a:hover {
   grid-column: 1 / 3;
   color: white;
 }
+
+.userRating {
+  background-color: #535bf2;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userRating button {
+  background-color: #646cff;
+  margin: 10px 0;
+}
