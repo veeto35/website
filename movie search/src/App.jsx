@@ -3,11 +3,15 @@ import './index.css'
 import SearchMovie from './components/SearchMovie'
 import MovieDetails from './components/MovieDetails';
 import useLocalStorageState from './components/useLocalStorageState'
+import Loader from './components/Loader';
+import SearchBar from './components/SearchBar';
+import ErrorMessage from './components/ErrorMessage';
 
 function App() {
   const [movies,setMovies] = useState([]);
   const [query,setQuery] = useState("Int");
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading,setIsLoading] = useState(true);
+  const [error,setError] = useState("");
   const [watched,setWatched] = useLocalStorageState([],"watched");
 
   const [selectedMovie,setSelectedMovie] = useState(null);
@@ -15,20 +19,37 @@ function App() {
 
   useEffect(() => {
     async function fetchMovies(){
+    
+      setIsLoading(true);
+      setError("");
       const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}*`)
 
-      const data = await res.json();
-      setMovies(data.Search);
+      if(!res.ok) setError("Something went wrong fetching")
 
+      const data = await res.json();
+      
+      if(data.Response === 'False'){
+        setError("Movie not found");
+        
+      } 
+        
+      setMovies(data.Search);
+      setIsLoading(false);
     }
 
     if(query.length < 3) {
-      setMovies([]);  
+      setIsLoading(false);
+      setMovies(watched);  
+      console.log(watched)
+      setError("");
+      return
     }
 
-    fetchMovies();
+    
 
-  }, [query]);
+    fetchMovies();
+    
+  }, [query,watched]);
 
   function handleWatchedMovie(movie) {
     setWatched(watched => [...watched, movie])
@@ -53,11 +74,21 @@ function App() {
   return (
     <div className={`main-${selectedMovie !== null}`}>
       <h1 className='title'>Movie Searcher</h1>
-      <SearchMovie moviesList={movies} query={query} setQuery={setQuery} setSelectedMovie={handleSelectedMovie} />
+      <div className="container">
+      <SearchBar query={query} setQuery={setQuery} moviesList={movies}/>
+      { isLoading && <Loader /> }
+      {
+        !isLoading && <SearchMovie moviesList={movies} query={query.length} watched={watched} setSelectedMovie={handleSelectedMovie} />
+      }
+      
+      {error && <ErrorMessage err={error} />}
+      </div>
+      
       {
         !selectedMovie ? null : 
-        <MovieDetails selectedMovie={selectedMovie} watched={watched} setWatched={handleWatchedMovie}  setSelectedMovie={handleSelectedMovie} setClosedMovie={handleCloseMovie}/>
+        <MovieDetails setIsLoading={setIsLoading} setError={setError} selectedMovie={selectedMovie} watched={watched} handleRemoveWatched={setWatched} setWatched={handleWatchedMovie}  setSelectedMovie={handleSelectedMovie} setClosedMovie={handleCloseMovie}/>
       }
+      {error && <ErrorMessage err={error} />}
     </div>
     
   )

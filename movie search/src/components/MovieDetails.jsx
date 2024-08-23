@@ -1,51 +1,59 @@
 import { useState,useEffect } from "react";
 import StarRating from "./StarRating";
 const KEY = "f6e8c198";
+import Loader from "./Loader";
 
-export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosedMovie,watched,setWatched}) {
+export default function MovieDetails({selectedMovie,setSelectedMovie,handleRemoveWatched, setClosedMovie,watched,setWatched}) {
     const [movie,setMovie] = useState({});
     const [userStarRating,setUserStarRating] = useState(0);
+    const [isLoading,setIsLoading] = useState(false)
+    const [error,setError] = useState("");
+    const { Title: Title, Year: Year ,Poster: Poster,Runtime: Runtime, imdbRating, Plot: Plot, Released: Released, Actors: Actors, Director: Director, Genre: Genre} = movie;
     
-    const { Title: title, Year: year ,Poster: poster,Runtime: runtime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre} = movie;
-    
-    const isWatched = watched.map((movie) => movie.imdbID).includes(selectedMovie)
-    const watchedUserRating = watched.find((movie) => movie.imdbID === selectedMovie)?.userRating;
+    const isWatched = watched.map((movie) => movie?.imdbID).includes(selectedMovie)
+    const watchedUserRating = watched.find((movie) => movie?.imdbID === selectedMovie)?.userRating;
 
     function onHandleAdd() {
         const newWatchedMovie = {
           imdbID: selectedMovie,
-          title,
-          year,
-          poster,
+          Title,
+          Year,
+          Poster,
           imdbRating: Number(imdbRating),
-          runtime : Number(runtime.split(" ").at(0)),
+          runtime : Number(Runtime.split(" ").at(0)),
           userRating: userStarRating
         }
         
         setWatched(newWatchedMovie)
         setClosedMovie()
       }
-  
+      
+      function onHandleRemove(id) {
+        handleRemoveWatched(watched => watched.filter(m => m?.imdbID !== id));     
+        
+      }
+
       //useKey("Escape",handleCloseMovie)
       
       useEffect(function() {
-        if(!title) return;
-        document.title= `Movie | ${title}`
+        if(!Title) return;
+        document.title= `Movie | ${Title}`
   
         return function () {
           document.title= "usePopcorn"
         }
-      },[title])
+      },[Title])
 
     useEffect(() => {
         async function fetchMovie(){
-           
+           setIsLoading(true)
+           setError("")
           const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedMovie}&plot=full`)
     
           const data = await res.json();
           
           setMovie(data);
-    
+          setIsLoading(false);
         }
     
     
@@ -53,11 +61,13 @@ export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosed
     
       }, [selectedMovie]);
 
-      console.log(movie)
+    
 
     return ( 
         <div className="containerDetails">
-            <div className="jointImage">
+           {isLoading ? <Loader /> : 
+           <> 
+           <div className="jointImage">
             <button onClick={() => setSelectedMovie(null)} >
                 &larr;
             </button>
@@ -76,11 +86,15 @@ export default function MovieDetails({ selectedMovie,setSelectedMovie, setClosed
                     !isWatched ? (<>
                         <StarRating maxRating={10} size={22} onSetRating={setUserStarRating} />
                             {   userStarRating > 0 ? <button onClick={onHandleAdd}>Movie Watched + </button> : null }  </>) :
-                        <p>You rated this movie already  {watchedUserRating} ✨</p>
+                       <>
+                       <p>You rated this movie already  {watchedUserRating} ✨</p>
+                        <button onClick={() => onHandleRemove(movie.imdbID)}>Remove from favorites</button>
+                      </>
                 }
                 </div>
             </div>
             <p className="plot">{movie.Plot}</p>
+            </> }
         </div>
     );
 }

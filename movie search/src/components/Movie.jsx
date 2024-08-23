@@ -3,7 +3,7 @@ import './../index.css'
 
 export default function Movie({ id,movie,setSelectedMovie}) {
     
-    
+   
     return (
         <li key={id} className='movieRow' onClick={() => setSelectedMovie(id)}>
             

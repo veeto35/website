@@ -2,12 +2,12 @@ import SearchBar from "./SearchBar";
 import MovieList from "./MovieList";
 
 
-export default function SearchMovie({moviesList,query,setQuery,setSelectedMovie}) {
+export default function SearchMovie({moviesList,setSelectedMovie,watched,query}) {
     
     return ( 
-        <div className="container">
-            <SearchBar query={query} setQuery={setQuery} moviesList={moviesList}/>
-            <MovieList moviesList={moviesList} setSelectedMovie={setSelectedMovie}/>
-        </div>
+        <>
+            
+            <MovieList moviesList={moviesList} setSelectedMovie={setSelectedMovie} query={query} watched={watched}/>
+        </>
         );
 }
